@@ -19,6 +19,8 @@ def print_json(data):
         print(i)
 
 token = f"Bearer {get_token().get('token')}"
+
+
 def get_list():
     url = "https://public-apis-api.herokuapp.com/api/v1/apis/categories?page=1"
     token = f"Bearer {get_token().get('token')}"
@@ -30,13 +32,14 @@ def get_list():
 
     print(response.json())
     return response.json()
+
 category_list = get_list()
 
 
 
 def category_crawler(category):
-
-    url = f"https://public-apis-api.herokuapp.com/api/v1/apis/entry?page=1&category={category}"
+    print(f"Crawling {category} : ")
+    url = f"https://public-apis-api.herokuapp.com/api/v1/apis/entry?page=2&category={category}"
 
     payload = {}
     headers = {"Authorization": token}
@@ -44,6 +47,11 @@ def category_crawler(category):
     response = requests.request("GET", url, headers=headers, data=payload)
 
     print(response.text.encode('utf8'))
+    print_json(response.json())
     return response.json()
+print_json(category_list)
+category_crawler("Animals")
 
-print_json(category_crawler("Animals"))
+"""category_list_crawling = category_list.get('categories')
+for i in category_list_crawling:
+    print_json(category_crawler(str(i)))"""
