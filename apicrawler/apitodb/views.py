@@ -31,10 +31,11 @@ class APIcrawler():
         return ceil(count / 10)
 
     def get_all_data_categorywise(self,category):
-        datac = self.category_pagewise_crawler(category,1)
-        pagecount = self.page_count(datac)
-        for i in range(2,pagecount+1):
-            self.category_pagewise_crawler(category,i)
+        datac = []
+        pagecount = self.page_count(self.category_pagewise_crawler(category, 1))
+        for i in range(1, pagecount + 1):
+            datac.append(self.category_pagewise_crawler(category, i))
+        return datac
 
 
 def index(request):
@@ -45,7 +46,13 @@ def index(request):
 def add(request,category):
     api = APIcrawler()
     data = api.get_all_data_categorywise(category=category)
-    pprint(data)
+    ex = data[0].get('categories')
+    for i in range(len(ex)):
+        pprint(ex[i])
+    #for apidetails in data:
+        #API = api_detail(apidetails.get('categories'))
+        #API.save()
+
     return HttpResponse(f"{category} Added to Database")
 
 

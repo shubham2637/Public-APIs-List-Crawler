@@ -72,7 +72,7 @@ def category_pagewise_crawler(category, page_number):
     headers = {"Authorization": token}
 
     response = requests.request("GET", url, headers=headers)
-    #print(response.json())
+    #print(response.json().get('categories'))
     return response.json()
 
 """
@@ -82,15 +82,18 @@ pagecount = page_count(Category)
 print(pagecount)"""
 
 def get_all_data_categorywise(category):
-    datac = category_pagewise_crawler(category,1)
-    parse_data(datac)
-    pagecount = page_count(datac)
-    for i in range(2,pagecount+1):
-        category_pagewise_crawler(category,i)
+    #parse_data(datac)
+    datac=[]
+    pagecount = page_count(category_pagewise_crawler(category,1))
+    for i in range(1,pagecount+1):
+        datac.append(category_pagewise_crawler(category,i))
+    return datac
+
 
 CATEGORY_LIST = ['Animals']
 for i in CATEGORY_LIST:
     data = get_all_data_categorywise(i)
+    print(data)
     print(type(data))
 
 
