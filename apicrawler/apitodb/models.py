@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 
-class api_details(models.Model):
+class api_detail(models.Model):
     API = models.TextField()
     link = models.URLField()
     Description = models.TextField()
