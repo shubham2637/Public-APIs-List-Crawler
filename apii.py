@@ -2,7 +2,6 @@ import requests
 URl = "https://api.publicapis.org"
 TOKEN_URL = "https://public-apis-api.herokuapp.com/api/v1/auth/token"
 URL = "https://public-apis-api.herokuapp.com/api/v1/apis/categories?page=1"
-
 def get_token ():
     url = "https://public-apis-api.herokuapp.com/api/v1/auth/token"
     payload = {}
@@ -21,7 +20,11 @@ def get_list():
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
-    print(response.text.encode('utf8'))
-
-get_list()
+    print(response.json())
+    return response.json()
+category_list = get_list()
+print(f"Count : {category_list.get('count')}")
+print("Categories : ")
+for i in category_list.get('categories'):
+    print(i)
 
